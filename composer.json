@@ -1,0 +1,17 @@
+{
+    "name": "lenovo/php-zbank-oop",
+    "description": "ZBank personal OOP PHP project",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "": "./"
+        }
+    },
+    "authors": [
+        {
+            "name": "zilva149",
+            "email": "114057257+zilva149@users.noreply.github.com"
+        }
+    ],
+    "require": {}
+}
