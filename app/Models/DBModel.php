@@ -4,7 +4,7 @@ namespace app\Models;
 
 use app\DB\Database;
 
-class DatabaseModel implements DataBase
+class DBModel implements DataBase
 {
 
     private $data, $name;
