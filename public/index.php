@@ -10,7 +10,9 @@ $app = new Application($root);
 $app->router
     ->get('/', [\app\Controllers\SiteController::class, 'home'])
     ->get('/home', [\app\Controllers\SiteController::class, 'home'])
-    ->get('/contacts', [\app\Controllers\SiteController::class, 'contacts'])
-    ->get('/login', [\app\Controllers\AuthController::class, 'login']);
+    ->get('/create-acc', [\app\Controllers\SiteController::class, 'createAcc'])
+    ->get('/add-money', [\app\Controllers\SiteController::class, 'addMoney'])
+    ->get('/withdraw-money', [\app\Controllers\SiteController::class, 'withdrawMoney'])
+    ->get('/login', [\app\Controllers\SiteController::class, 'login']);
 
 $app->resolve();

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZBank</title>
+    <title>ZBank | <?= $title ?></title>
     <!-- font awesome -->
     <link href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- custom css -->
@@ -22,11 +22,11 @@
                 </button>
                 <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="header-logo">ZBank</a>
                 <nav class="nav flex flex-col">
-                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="nav-link active">
+                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="nav-link <?= $active === 'home' ? 'active' : '' ?>">
                         <i class="fa-solid fa-list-ul"></i>
                         sąskaitų sąrašas
                     </a>
-                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/add-account.php" class="nav-link">
+                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/add-account.php" class="nav-link <?= $active === 'create-acc' ? 'active' : '' ?>">
                         <i class="fa-solid fa-address-book"></i>
                         pridėti sąskaitą
                     </a>

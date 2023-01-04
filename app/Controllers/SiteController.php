@@ -8,11 +8,32 @@ class SiteController extends Controller
 {
     public function home()
     {
-        echo 'Home page';
+        return $this->renderView('main', 'home', [
+            'title' => 'Sąskaitų sąrašas',
+            'active' => 'home'
+        ]);
     }
 
-    public function contacts()
+    public function createAcc()
     {
-        echo 'Contact us';
+        return $this->renderView('main', 'create-acc', [
+            'title' => 'Sukurti sąskaitą',
+            'active' => 'create-acc'
+        ]);
+    }
+
+    public function login()
+    {
+        return $this->renderView('auth', 'login', ['title' => 'Prisijungimas']);
+    }
+
+    public function addMoney()
+    {
+        return $this->renderView('main', 'add-money', ['title' => 'Pridėti lėšas']);
+    }
+
+    public function withdrawMoney()
+    {
+        return $this->renderView('main', 'withdraw-money', ['title' => 'Nuskaičiuoti lėšas']);
     }
 }
