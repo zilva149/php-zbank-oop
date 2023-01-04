@@ -8,7 +8,7 @@ class SiteController extends Controller
 {
     public function home()
     {
-        return $this->renderView('main', 'home', [
+        echo $this->renderView('home', [
             'title' => 'Sąskaitų sąrašas',
             'active' => 'home'
         ]);
@@ -16,7 +16,7 @@ class SiteController extends Controller
 
     public function createAcc()
     {
-        return $this->renderView('main', 'create-acc', [
+        echo $this->renderView('create-acc', [
             'title' => 'Sukurti sąskaitą',
             'active' => 'create-acc'
         ]);
@@ -24,16 +24,16 @@ class SiteController extends Controller
 
     public function login()
     {
-        return $this->renderView('auth', 'login', ['title' => 'Prisijungimas']);
+        echo $this->renderView('login', ['title' => 'Prisijungimas']);
     }
 
     public function addMoney()
     {
-        return $this->renderView('main', 'add-money', ['title' => 'Pridėti lėšas']);
+        echo $this->renderView('add-money', ['title' => 'Pridėti lėšas']);
     }
 
     public function withdrawMoney()
     {
-        return $this->renderView('main', 'withdraw-money', ['title' => 'Nuskaičiuoti lėšas']);
+        echo $this->renderView('withdraw-money', ['title' => 'Nuskaičiuoti lėšas']);
     }
 }
