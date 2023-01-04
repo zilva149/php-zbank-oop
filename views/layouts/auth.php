@@ -9,9 +9,9 @@
     <!-- font awesome -->
     <link href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- custom css -->
-    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
     <!-- scripts -->
-    <script src="./assets/js/app.js" defer></script>
+    <script src="../../assets/js/app.js" defer></script>
 </head>
 
 <body>

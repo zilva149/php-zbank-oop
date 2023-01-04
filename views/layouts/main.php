@@ -11,7 +11,6 @@
     <!-- custom css -->
     <link rel="stylesheet" href="./assets/css/main.css">
     <!-- scripts -->
-    <script src="./assets/js/app.js" defer></script>
 </head>
 
 <body>
@@ -23,11 +22,11 @@
                 </button>
                 <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="header-logo">ZBank</a>
                 <nav class="nav flex flex-col">
-                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="nav-link <?= $active == 'acc-list' ? 'active' : '' ?>">
+                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="nav-link active">
                         <i class="fa-solid fa-list-ul"></i>
                         sąskaitų sąrašas
                     </a>
-                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/add-account.php" class="nav-link <?= $active == 'add-acc' ? 'active' : '' ?>">
+                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/add-account.php" class="nav-link">
                         <i class="fa-solid fa-address-book"></i>
                         pridėti sąskaitą
                     </a>
