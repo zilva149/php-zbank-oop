@@ -4,7 +4,7 @@ namespace app\Models;
 
 use app\DB\Database;
 
-class DBModel implements DataBase
+class FileReader implements DataBase
 {
 
     private $data, $name;
@@ -45,10 +45,10 @@ class DBModel implements DataBase
         $this->data[] = $userData;
     }
 
-    public function update(int $userId, array $userData): void
+    public function update(int $userId, array $userData) : void
     {
         $userData['id'] = $userId;
-        $this->data = array_map(fn ($data) => $userId == $data['id'] ? $userData : $data, $this->data);
+        $this->data = array_map(fn($data) => $userId == $data['id'] ? $userData : $data, $this->data);
     }
 
     public function delete(int $userId): void

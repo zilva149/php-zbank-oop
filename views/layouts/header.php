@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ZBank | <?= $title ?></title>
+    <title>ZBank | <?= $pageTitle ?></title>
     <!-- font awesome -->
     <link href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- custom css -->
@@ -14,20 +14,20 @@
 </head>
 
 <body>
-    <?php if ($title !== 'Prisijungimas') : ?>
+    <?php if ($pageTitle !== 'Prisijungimas') : ?>
         <header class="header">
             <div class="container flex flex-col">
                 <div class="header-info">
                     <button class="burger-close">
                         <i class="fa-solid fa-times"></i>
                     </button>
-                    <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="header-logo">ZBank</a>
+                    <a href="<?= __DIR__ ?>" class="header-logo">ZBank</a>
                     <nav class="nav flex flex-col">
-                        <a href="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php" class="nav-link <?= $active === 'home' ? 'active' : '' ?>">
+                        <a href="<?= __DIR__ ?>" class="nav-link <?= $active === 'index' ? 'active' : '' ?>">
                             <i class="fa-solid fa-list-ul"></i>
                             sąskaitų sąrašas
                         </a>
-                        <a href="http://localhost:8080/intro/personal-projects/php-zbank/add-account.php" class="nav-link <?= $active === 'create-acc' ? 'active' : '' ?>">
+                        <a href="<?= __DIR__ . '/../views/pages/create-acc.php' ?>" class="nav-link <?= $active === 'create-acc' ? 'active' : '' ?>">
                             <i class="fa-solid fa-address-book"></i>
                             pridėti sąskaitą
                         </a>
