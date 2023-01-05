@@ -6,7 +6,7 @@ use app\Controllers\Application;
 
 class ViewController
 {
-    public static function renderView(string $page, array $params = [])
+    public static function renderView(string $page, array $params = []): string
     {
         ob_start();
         extract($params);

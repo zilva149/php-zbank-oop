@@ -7,7 +7,7 @@ class Application
     public static string $root;
     public static Application $app;
     public Router $router;
-    public $controller;
+    private Controller $controller;
 
     public function __construct(string $root)
     {
@@ -16,7 +16,7 @@ class Application
         $this->router = new Router();
     }
 
-    public function resolve()
+    public function resolve(): void
     {
         $method = $this->router->getMethod();
         $path = $this->router->getPath();
@@ -37,7 +37,7 @@ class Application
         $this->controller = new $controller;
     }
 
-    public function getController()
+    public function getController(): Controller
     {
         return $this->controller;
     }

@@ -2,11 +2,9 @@
 
 namespace app\Controllers;
 
-use app\Controllers\Controller;
-
-class SiteController
+class SiteController extends Controller
 {
-    public function home()
+    public function home(): void
     {
         echo ViewController::renderView('home', [
             'title' => 'Sąskaitų sąrašas',
@@ -14,7 +12,7 @@ class SiteController
         ]);
     }
 
-    public function createAcc()
+    public function createAcc(): void
     {
         echo ViewController::renderView('create-acc', [
             'title' => 'Sukurti sąskaitą',
@@ -22,17 +20,17 @@ class SiteController
         ]);
     }
 
-    public function login()
+    public function login(): void
     {
         echo ViewController::renderView('login', ['title' => 'Prisijungimas']);
     }
 
-    public function addMoney()
+    public function addMoney(): void
     {
         echo ViewController::renderView('add-money', ['title' => 'Pridėti lėšas']);
     }
 
-    public function withdrawMoney()
+    public function withdrawMoney(): void
     {
         echo ViewController::renderView('withdraw-money', ['title' => 'Nuskaičiuoti lėšas']);
     }
