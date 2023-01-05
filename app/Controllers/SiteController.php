@@ -4,11 +4,11 @@ namespace app\Controllers;
 
 use app\Controllers\Controller;
 
-class SiteController extends Controller
+class SiteController
 {
     public function home()
     {
-        echo $this->renderView('home', [
+        echo ViewController::renderView('home', [
             'title' => 'Sąskaitų sąrašas',
             'active' => 'home'
         ]);
@@ -16,7 +16,7 @@ class SiteController extends Controller
 
     public function createAcc()
     {
-        echo $this->renderView('create-acc', [
+        echo ViewController::renderView('create-acc', [
             'title' => 'Sukurti sąskaitą',
             'active' => 'create-acc'
         ]);
@@ -24,16 +24,16 @@ class SiteController extends Controller
 
     public function login()
     {
-        echo $this->renderView('login', ['title' => 'Prisijungimas']);
+        echo ViewController::renderView('login', ['title' => 'Prisijungimas']);
     }
 
     public function addMoney()
     {
-        echo $this->renderView('add-money', ['title' => 'Pridėti lėšas']);
+        echo ViewController::renderView('add-money', ['title' => 'Pridėti lėšas']);
     }
 
     public function withdrawMoney()
     {
-        echo $this->renderView('withdraw-money', ['title' => 'Nuskaičiuoti lėšas']);
+        echo ViewController::renderView('withdraw-money', ['title' => 'Nuskaičiuoti lėšas']);
     }
 }

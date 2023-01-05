@@ -2,6 +2,10 @@
     <div class="container">
         <form action="http://localhost:8080/intro/personal-projects/php-zbank/login.php" method="post" class="form flex flex-col">
             <h1 class="title">Prisijunkite</h1>
+            <?php if (isset($_SESSION['modal_sm'])) :
+                require(__DIR__ . '/inc/modal-sm.php');
+                unset($_SESSION['modal_sm']);
+            endif ?>
             <div class="form-info grid">
                 <div class="input-container" style="grid-column: 1 / span 2;">
                     <label for="email" class="label">El. paštas</label>
@@ -19,3 +23,7 @@
         </form>
     </div>
 </main>
+
+</body>
+
+</html>
