@@ -29,7 +29,7 @@
                             <a href="/withdraw-money/<?= $user['id'] ?>" class="btn minus-btn">
                                 <i class="fa-solid fa-minus"></i>
                             </a>
-                            <form action="<?=$_SERVER['PHP_SELF'] . '/' . $user['id'] ?>" method="post">
+                            <form action="/delete/<?= $user['id'] ?>" method="post">
                                 <button type="submit" class="btn delete-btn">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>

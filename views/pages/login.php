@@ -1,6 +1,6 @@
 <main class="login flex flex-col">
     <div class="container">
-        <form action="http://localhost:8080/intro/personal-projects/php-zbank/login.php" method="post" class="form flex flex-col">
+        <form action="/login" method="post" class="form flex flex-col">
             <h1 class="title">Prisijunkite</h1>
             <?php if (isset($_SESSION['modal_sm'])) :
                 require(__DIR__ . '/inc/modal-sm.php');
@@ -17,8 +17,8 @@
                 </div>
             </div>
             <div class="form-btns">
-                <a href="http://localhost:8080/intro/personal-projects/php-zbank/add-account.php" class="btn form-delete-btn">atšaukti</a>
-                <button type="submit" class="btn form-submit-btn">išsaugoti</button>
+                <a href="/login" class="btn form-delete-btn">atšaukti</a>
+                <button type="submit" class="btn form-submit-btn">prisijungti</button>
             </div>
         </form>
     </div>

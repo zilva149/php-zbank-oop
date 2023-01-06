@@ -2,17 +2,23 @@
 
 namespace app\Controllers;
 
+use app\DB\FileReader;
+
 class Application
 {
     public static string $root;
     public static Application $app;
     public static Accounts $accounts;
+    public static FileReader $usersFileReader;
+    public static FileReader $adminsFileReader;
 
     public function __construct(string $root)
     {
         self::$root = $root;
         self::$app = $this;
         self::$accounts = new Accounts();
+        self::$usersFileReader = new FileReader('users');
+        self::$adminsFileReader = new FileReader('admins');
     }
 
     public function resolve()
@@ -21,7 +27,6 @@ class Application
         array_shift($url);
         return self::router($url);
     }
-
 
     private static function router(array $url)
     {
@@ -47,11 +52,15 @@ class Application
             return self::$accounts->login();
         }
 
-        if ($url[0] === 'create-acc' && count($url) === 1 && $method === 'GET') {
+        if ($url[0] === 'logout' && count($url) === 1 && $method === 'GET') {
+            return self::$accounts->logout();
+        }
+
+        if ($url[0] === 'create-account' && count($url) === 1 && $method === 'GET') {
             return self::$accounts->create();
         }
 
-        if ($url[0] === 'create-acc' && $url[1] === 'save' && count($url) == 2 && $method == 'POST') {
+        if ($url[0] === 'create-account' && $url[1] === 'save' && count($url) == 2 && $method == 'POST') {
             return self::$accounts->save();
         }
 
@@ -72,7 +81,7 @@ class Application
         }
 
 
-        return '404 NOT FOUND';
+        return self::$accounts->error();
     }
 
     public static function renderView(string $page, array $params = []): string
@@ -86,7 +95,7 @@ class Application
 
     public static function redirect($url)
     {
-        header('Location: ' . self::$root . $url);
+        header('Location: ' . $url);
         return null;
     }
 }

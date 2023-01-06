@@ -14,20 +14,20 @@
 </head>
 
 <body>
-    <?php if ($pageTitle !== 'Prisijungimas') : ?>
+    <?php if (isset($pageTitle) && $pageTitle !== 'Prisijungimas' && $pageTitle !== '404') : ?>
         <header class="header">
             <div class="container flex flex-col">
                 <div class="header-info">
                     <button class="burger-close">
                         <i class="fa-solid fa-times"></i>
                     </button>
-                    <a href="<?= __DIR__ ?>" class="header-logo">ZBank</a>
+                    <a href="/" class="header-logo">ZBank</a>
                     <nav class="nav flex flex-col">
-                        <a href="<?= __DIR__ ?>" class="nav-link <?= $active === 'index' ? 'active' : '' ?>">
+                        <a href="/accounts" class="nav-link <?= $active === 'index' ? 'active' : '' ?>">
                             <i class="fa-solid fa-list-ul"></i>
                             sąskaitų sąrašas
                         </a>
-                        <a href="<?= __DIR__ . '/../views/pages/create-acc.php' ?>" class="nav-link <?= $active === 'create-acc' ? 'active' : '' ?>">
+                        <a href="/create-account" class="nav-link <?= $active === 'create-account' ? 'active' : '' ?>">
                             <i class="fa-solid fa-address-book"></i>
                             pridėti sąskaitą
                         </a>
@@ -52,7 +52,7 @@
                 </div>
                 <div class="logout-btn-container">
                     <button class="logout-btn">
-                        <a href=<?= $_SERVER['PHP_SELF'] . '?logout' ?>>
+                        <a href="/logout">
                             <i class="fa-solid fa-right-from-bracket"></i>
                             atsijungti
                         </a>

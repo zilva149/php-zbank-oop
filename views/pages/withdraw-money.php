@@ -19,8 +19,8 @@
                     <p class="add-card-name"><?= $user['name'] . ' ' . $user['surname'] ?></p>
                     <p class="add-card-money">&#8364;<?= number_format($user['money'], 2, '.', ',') ?></p>
                 </div>
-                <form action="<?= $_SERVER['PHP_SELF'] . '/' . $user['id'] ?>" method="post" class="add-card-form flex">
-                    <input type="text" name="amount" class="add-card-input input" autocomplete="off" placeholder="Įveskite sumą...">
+                <form action="/withdraw-money/update/<?= $user['id'] ?>" method="post" class="add-card-form flex">
+                    <input type="text" name="withdraw_amount" class="add-card-input input" autocomplete="off" placeholder="Įveskite sumą...">
                     <button type="submit" class="btn submit-btn">nuskaičiuoti</button>
                 </form>
             </article>
