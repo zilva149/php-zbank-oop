@@ -17,19 +17,19 @@
             <section class="users grid">
                 <?php foreach ($users as $i => $user) : ?>
                     <article class="user grid">
-                        <p class="acc-name"><?= $user->surname . ', ' . $user->name ?></p>
-                        <p class="acc-id"><span class="highlight">ID: </span><?= $user->id ?></p>
-                        <p class="acc-idnum"><span class="highlight">Asmens kodas: </span><?= $user->id_num ?></p>
-                        <p class="acc-iban"><span class="highlight">Sąskaitos Nr.: </span><?= $user->bank_acc ?></p>
-                        <p class="acc-money">&#8364;<?= number_format($user->money, 2, '.', ',') ?></p>
+                        <p class="acc-name"><?= $user['surname'] . ', ' . $user['name'] ?></p>
+                        <p class="acc-id"><span class="highlight">ID: </span><?= $user['id'] ?></p>
+                        <p class="acc-idnum"><span class="highlight">Asmens kodas: </span><?= $user['id_num'] ?></p>
+                        <p class="acc-iban"><span class="highlight">Sąskaitos Nr.: </span><?= $user['bank_acc'] ?></p>
+                        <p class="acc-money">&#8364;<?= number_format($user['money'], 2, '.', ',') ?></p>
                         <div class="user-btns flex">
-                            <a href="http://localhost:8080/intro/personal-projects/php-zbank/add-money.php?id=<?= $user->id ?>" class="btn plus-btn">
+                            <a href="/add-money/<?= $user['id'] ?>" class="btn plus-btn">
                                 <i class="fa-solid fa-plus"></i>
                             </a>
-                            <a href="http://localhost:8080/intro/personal-projects/php-zbank/withdraw-money.php?id=<?= $user->id ?>" class="btn minus-btn">
+                            <a href="/withdraw-money/<?= $user['id'] ?>" class="btn minus-btn">
                                 <i class="fa-solid fa-minus"></i>
                             </a>
-                            <form action="http://localhost:8080/intro/personal-projects/php-zbank/accounts.php?id=<?= $user->id ?>" method="post">
+                            <form action="<?=$_SERVER['PHP_SELF'] . '/' . $user['id'] ?>" method="post">
                                 <button type="submit" class="btn delete-btn">
                                     <i class="fa-solid fa-trash"></i>
                                 </button>

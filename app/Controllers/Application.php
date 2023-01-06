@@ -39,6 +39,10 @@ class Application
             return self::$accounts->index();
         }
 
+        if ($url[0] === 'accounts' && count($url) === 1 && $method === 'GET') {
+            return self::$accounts->index();
+        }
+
         if ($url[0] === 'login' && count($url) === 1 && $method === 'GET') {
             return self::$accounts->login();
         }
@@ -51,19 +55,19 @@ class Application
             return self::$accounts->save();
         }
 
-        if ($url[0] === 'add-money' && count($url) == 2 && $method == 'GET') {
+        if ($url[0] === 'add-money' && preg_match('/^\d+$/',$url[1]) && count($url) == 2 && $method == 'GET') {
             return self::$accounts->add($url[1]);
         }
 
-        if ($url[0] === 'withdraw-money' && count($url) == 2 && $method == 'GET') {
+        if ($url[0] === 'withdraw-money' && preg_match('/^\d+$/',$url[1]) && count($url) == 2 && $method == 'GET') {
             return self::$accounts->withdraw($url[1]);
         }
 
-        if (($url[0] === 'add-money' || $url[0] === 'withdraw-money') && $url[1] == 'update' && count($url) == 3 && $method == 'POST') {
+        if (($url[0] === 'add-money' || $url[0] === 'withdraw-money') && $url[1] == 'update' && preg_match('/^\d+$/',$url[2]) && count($url) == 3 && $method == 'POST') {
             return self::$accounts->update($url[2]);
         }
 
-        if ($url[0] === 'delete' && count($url) == 2 && $method == 'POST') {
+        if ($url[0] === 'delete' && preg_match('/^\d+$/',$url[1]) && count($url) == 2 && $method == 'POST') {
             return self::$accounts->delete($url[1]);
         }
 

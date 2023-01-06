@@ -1,8 +1,6 @@
 <?php
 
-namespace app\Models;
-
-use app\DB\Database;
+namespace app\DB;
 
 class FileReader implements DataBase
 {

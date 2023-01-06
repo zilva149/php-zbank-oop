@@ -16,10 +16,10 @@
             endif ?>
             <article class="add-card flex flex-col">
                 <div class="add-card-info flex">
-                    <p class="add-card-name"><?= $user->name . ' ' . $user->surname ?></p>
-                    <p class="add-card-money">&#8364;<?= number_format($user->money, 2, '.', ',') ?></p>
+                    <p class="add-card-name"><?= $user['name'] . ' ' . $user['surname'] ?></p>
+                    <p class="add-card-money">&#8364;<?= number_format($user['money'], 2, '.', ',') ?></p>
                 </div>
-                <form action="http://localhost:8080/intro/personal-projects/php-zbank/withdraw-money.php?id=<?= $id ?>" method="post" class="add-card-form flex">
+                <form action="<?= $_SERVER['PHP_SELF'] . '/' . $user['id'] ?>" method="post" class="add-card-form flex">
                     <input type="text" name="amount" class="add-card-input input" autocomplete="off" placeholder="Įveskite sumą...">
                     <button type="submit" class="btn submit-btn">nuskaičiuoti</button>
                 </form>
