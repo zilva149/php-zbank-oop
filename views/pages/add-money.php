@@ -6,12 +6,12 @@
             </button>
             <div class="admin-info">
                 <i class="fa-solid fa-user"></i>
-                <?= isset($_SESSION['admin']) && $_SESSION['admin'] ?>
+                <?= $_SESSION['admin'] ?>
             </div>
         </div>
         <section class="add-content">
             <?php if (isset($_SESSION['modal'])) :
-                require(__DIR__ . '/inc/modal.php');
+                require('./../views/components/modal.php');
                 unset($_SESSION['modal']);
             endif ?>
             <article class="add-card flex flex-col">
@@ -29,6 +29,11 @@
 
     <?php require('../views/layouts/footer.php'); ?>
 </div>
+
+<script>
+    const input = document.querySelector('input[name="amount"]');
+    window.addEventListener('DOMContentLoaded', () => input.focus());
+</script>
 
 </body>
 

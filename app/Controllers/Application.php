@@ -6,17 +6,17 @@ use app\DB\FileReader;
 
 class Application
 {
-    public static string $root;
     public static Application $app;
     public static Accounts $accounts;
+    public static AuthController $authController;
     public static FileReader $usersFileReader;
     public static FileReader $adminsFileReader;
 
-    public function __construct(string $root)
+    public function __construct()
     {
-        self::$root = $root;
         self::$app = $this;
         self::$accounts = new Accounts();
+        self::$authController = new AuthController();
         self::$usersFileReader = new FileReader('users');
         self::$adminsFileReader = new FileReader('admins');
     }
@@ -30,7 +30,7 @@ class Application
 
     private static function router(array $url)
     {
-        $method = $_SERVER['REQUEST_METHOD'];
+        $method = self::$app->getMethod();
 
         if ($method == 'OPTIONS') {
             header('Access-Control-Allow-Origin: *');
@@ -49,11 +49,15 @@ class Application
         }
 
         if ($url[0] === 'login' && count($url) === 1 && $method === 'GET') {
-            return self::$accounts->login();
+            return self::$authController->login();
         }
 
-        if ($url[0] === 'logout' && count($url) === 1 && $method === 'GET') {
-            return self::$accounts->logout();
+        if ($url[0] === 'login' && count($url) === 1 && $method === 'POST') {
+            return self::$authController->login();
+        }
+
+        if ($url[0] === 'accounts' && $url[1] === 'logout' && count($url) === 2 && $method === 'GET') {
+            return self::$authController->logout();
         }
 
         if ($url[0] === 'create-account' && count($url) === 1 && $method === 'GET') {
@@ -88,9 +92,14 @@ class Application
     {
         ob_start();
         extract($params);
-        require Application::$root . '/views/layouts/header.php';
-        require Application::$root . "/views/pages/$page.php";
+        require './../views/layouts/header.php';
+        require "./../views/pages/$page.php";
         return ob_get_clean();
+    }
+
+    public static function getMethod(): string
+    {
+        return $_SERVER['REQUEST_METHOD'];
     }
 
     public static function redirect($url)

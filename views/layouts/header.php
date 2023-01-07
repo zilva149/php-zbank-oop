@@ -7,10 +7,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>ZBank | <?= $pageTitle ?></title>
     <!-- font awesome -->
-    <link href="./node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
+    <link href="../../node_modules/@fortawesome/fontawesome-free/css/all.min.css" rel="stylesheet">
     <!-- custom css -->
-    <link rel="stylesheet" href="./assets/css/main.css">
+    <link rel="stylesheet" href="../../assets/css/main.css">
     <!-- scripts -->
+    <script src="../../assets/js/app.js" defer></script>
 </head>
 
 <body>
@@ -23,7 +24,7 @@
                     </button>
                     <a href="/" class="header-logo">ZBank</a>
                     <nav class="nav flex flex-col">
-                        <a href="/accounts" class="nav-link <?= $active === 'index' ? 'active' : '' ?>">
+                        <a href="/accounts" class="nav-link <?= $active === 'accounts' ? 'active' : '' ?>">
                             <i class="fa-solid fa-list-ul"></i>
                             sąskaitų sąrašas
                         </a>
@@ -52,7 +53,7 @@
                 </div>
                 <div class="logout-btn-container">
                     <button class="logout-btn">
-                        <a href="/logout">
+                        <a href="/accounts/logout">
                             <i class="fa-solid fa-right-from-bracket"></i>
                             atsijungti
                         </a>

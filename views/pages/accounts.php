@@ -6,11 +6,11 @@
             </button>
             <div class="admin-info flex">
                 <i class="fa-solid fa-user"></i>
-                <?= isset($_SESSION['admin']) && $_SESSION['admin'] ?>
+                <?= $_SESSION['admin'] ?>
             </div>
         </div>
         <?php if (isset($_SESSION['modal'])) :
-            require(__DIR__ . '/inc/modal.php');
+            require('./../views/components/modal.php');
             unset($_SESSION['modal']);
         endif ?>
         <?php if (isset($users) && count($users) != 0) : ?>
@@ -45,6 +45,62 @@
 
     <?php require('../views/layouts/footer.php'); ?>
 </div>
+
+<script>
+    const plusBtns = document.querySelectorAll('.plus-btn');
+    const minusBtns = document.querySelectorAll('.minus-btn');
+    const deleteBtns = document.querySelectorAll('.delete-btn');
+
+    window.addEventListener('DOMContentLoaded', () => {
+        const width = window.innerWidth;
+        if (width >= 992) {
+            plusBtns.forEach((btn) => {
+                btn.innerHTML = 'pridėti';
+            });
+            minusBtns.forEach((btn) => {
+                btn.innerHTML = 'nuskaičiuoti';
+            });
+            deleteBtns.forEach((btn) => {
+                btn.innerHTML = 'ištrinti';
+            });
+        } else {
+            plusBtns.forEach((btn) => {
+                btn.innerHTML = `<i class="fa-solid fa-plus"></i>`;
+            });
+            minusBtns.forEach((btn) => {
+                btn.innerHTML = `<i class="fa-solid fa-minus"></i>`;
+            });
+            deleteBtns.forEach((btn) => {
+                btn.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+            });
+        }
+    });
+
+    window.addEventListener('resize', () => {
+        const width = window.innerWidth;
+        if (width >= 992) {
+            plusBtns.forEach((btn) => {
+                btn.innerHTML = 'pridėti';
+            });
+            minusBtns.forEach((btn) => {
+                btn.innerHTML = 'nuskaičiuoti';
+            });
+            deleteBtns.forEach((btn) => {
+                btn.innerHTML = 'ištrinti';
+            });
+        } else {
+            plusBtns.forEach((btn) => {
+                btn.innerHTML = `<i class="fa-solid fa-plus"></i>`;
+            });
+            minusBtns.forEach((btn) => {
+                btn.innerHTML = `<i class="fa-solid fa-minus"></i>`;
+            });
+            deleteBtns.forEach((btn) => {
+                btn.innerHTML = `<i class="fa-solid fa-trash"></i>`;
+            });
+        }
+    });
+</script>
 
 </body>
 
