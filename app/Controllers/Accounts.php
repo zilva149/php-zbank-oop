@@ -31,16 +31,12 @@ class Accounts {
         $id = $_POST['id'] ?? '';
         $iban = $_POST['iban'] ?? '';
 
-        $_SESSION['name_error'] = '';
-        $_SESSION['surname_error'] = '';
-        $_SESSION['id_error'] = '';
-
         if (!Validation::validateName($name)) {
             $_SESSION['name_error'] = 'Nevalidus vardas';
         }
 
         if (!Validation::validateLength($name, 4)) {
-            if($_SESSION['name_error'] === '') {
+            if(!isset($_SESSION['name_error'])) {
                 $_SESSION['name_error'] = 'Vardas trumpesnis nei 4 raidės';
             }
         }
@@ -50,7 +46,7 @@ class Accounts {
         }
 
         if (!Validation::validateLength($surname, 4)) {
-            if($_SESSION['surname_error'] === '') {
+            if(!isset($_SESSION['surname_error'])) {
                 $_SESSION['surname_error'] = 'Pavardė trumpesnė nei 4 raidės';
             }
         }
@@ -60,12 +56,12 @@ class Accounts {
         }
 
         if (!Validation::validateUniqueID(Application::$usersFileReader->showAll(), $id)) {
-            if($_SESSION['id_error'] === '') {
+            if(!isset($_SESSION['id_error'])) {
                 $_SESSION['id_error'] = 'Asmens kodas jau egzistuoja';
             }
         }
 
-        if($_SESSION['name_error'] !== '' || $_SESSION['surname_error'] !== '' || $_SESSION['id_error'] !== '') {
+        if(isset($_SESSION['name_error']) || isset($_SESSION['surname_error']) || isset($_SESSION['id_error'])) {
             $_SESSION['info'] = [
                 'name' => $name,
                 'surname' => $surname,
@@ -81,17 +77,13 @@ class Accounts {
             'id_num' => $id,
             'money' => 0
         ];
+        Application::$usersFileReader->create($user);
 
         $_SESSION['modal'] = [
             'name' => 'success',
             'modal_message' => 'Naujas klientas sėkmingai pridėtas',
             'modal_color' => '#35bd0f',
         ];
-        unset($_SESSION['name_error']);
-        unset($_SESSION['surname_error']);
-        unset($_SESSION['id_error']);
-
-        Application::$usersFileReader->create($user);
         return Application::redirect('/accounts');
     }
 
