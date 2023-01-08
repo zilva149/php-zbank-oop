@@ -3,13 +3,14 @@
 namespace app\Controllers;
 
 use app\DB\FileReader;
-use app\Models\AccountModel;
+use app\Controllers\Validation;
 
 class Accounts {
 
     public function index(): string
     {
         $users = Application::$usersFileReader->showAll();
+        usort($users, fn ($a, $b) => $a['surname'] <=> $b['surname']);
         $pageTitle = 'Sąskaitų sąrašas';
         $active = 'accounts';
         return Application::renderView('accounts', compact('users' ,'pageTitle', 'active'));
@@ -30,62 +31,45 @@ class Accounts {
         $id = $_POST['id'] ?? '';
         $iban = $_POST['iban'] ?? '';
 
-        if (!preg_match('/^[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+([\s]?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+|[\']?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]*)$/', $name)) {
-            $_SESSION['modal_sm'] = [
-                'name' => 'error',
-                'modal_place' => 'name',
-                'modal_message' => 'Nevalidus vardas',
-                'modal_color' => '#f01616',
-            ];
-            return Application::redirect('/create-account');
+        $_SESSION['name_error'] = '';
+        $_SESSION['surname_error'] = '';
+        $_SESSION['id_error'] = '';
+
+        if (!Validation::validateName($name)) {
+            $_SESSION['name_error'] = 'Nevalidus vardas';
         }
 
-        if (strlen($name) < 4) {
-            $_SESSION['modal_sm'] = [
-                'name' => 'error',
-                'modal_place' => 'name',
-                'modal_message' => 'Vardas turi būti mažiausiai 4-ių raidžių ilgio',
-                'modal_color' => '#f01616',
-            ];
-            return Application::redirect('/create-account');
+        if (!Validation::validateLength($name, 4)) {
+            if($_SESSION['name_error'] === '') {
+                $_SESSION['name_error'] = 'Vardas trumpesnis nei 4 raidės';
+            }
         }
 
-        if (!preg_match('/^[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+([\s]?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]+|[\']?[a-zA-ZąčęėįšųūžĄČĘĖĮŠŲŪŽ]*)$/', $surname)) {
-            $_SESSION['modal_sm'] = [
-                'name' => 'error',
-                'modal_place' => 'surname',
-                'modal_message' => 'Nevalidi pavardė',
-                'modal_color' => '#f01616',
-            ];
-            return Application::redirect('/create-account');
+        if (!Validation::validateSurname($surname)) {
+            $_SESSION['surname_error'] = 'Nevalidi pavardė';
         }
 
-        if (strlen($surname) < 4) {
-            $_SESSION['modal_sm'] = [
-                'name' => 'error',
-                'modal_place' => 'name',
-                'modal_message' => 'Pavardė turi būti mažiausiai 4-ių raidžių ilgio',
-                'modal_color' => '#f01616',
-            ];
-            return Application::redirect('/create-account');
+        if (!Validation::validateLength($surname, 4)) {
+            if($_SESSION['surname_error'] === '') {
+                $_SESSION['surname_error'] = 'Pavardė trumpesnė nei 4 raidės';
+            }
         }
 
-        if (!preg_match('/^[1-6]\d{2}(0[1-9]|1[0-2])(0[1-9]|[12][0-9]|3[01])\d{4}$/', $id)) {
-            $_SESSION['modal_sm'] = [
-                'name' => 'error',
-                'modal_place' => 'id',
-                'modal_message' => 'Nevalidus asmens kodas',
-                'modal_color' => '#f01616',
-            ];
-            return Application::redirect('/create-account');
+        if (!Validation::validateID($id)) {
+            $_SESSION['id_error'] = 'Nevalidus asmens kodas';
         }
 
-        if (!validateIDNum(Application::$usersFileReader->showAll(), $id)) {
-            $_SESSION['modal_sm'] = [
-                'name' => 'error',
-                'modal_place' => 'id',
-                'modal_message' => 'Asmens kodas jau egzistuoja',
-                'modal_color' => '#f01616',
+        if (!Validation::validateUniqueID(Application::$usersFileReader->showAll(), $id)) {
+            if($_SESSION['id_error'] === '') {
+                $_SESSION['id_error'] = 'Asmens kodas jau egzistuoja';
+            }
+        }
+
+        if($_SESSION['name_error'] !== '' || $_SESSION['surname_error'] !== '' || $_SESSION['id_error'] !== '') {
+            $_SESSION['info'] = [
+                'name' => $name,
+                'surname' => $surname,
+                'id' => $id,
             ];
             return Application::redirect('/create-account');
         }
@@ -103,6 +87,9 @@ class Accounts {
             'modal_message' => 'Naujas klientas sėkmingai pridėtas',
             'modal_color' => '#35bd0f',
         ];
+        unset($_SESSION['name_error']);
+        unset($_SESSION['surname_error']);
+        unset($_SESSION['id_error']);
 
         Application::$usersFileReader->create($user);
         return Application::redirect('/accounts');
@@ -127,9 +114,7 @@ class Accounts {
         if(isset($_POST['add_amount'])) {
             $user = Application::$usersFileReader->show($id);
 
-            if (preg_match('/^-?(?:[0-9]*[.])?[0-9]+$/', $_POST['add_amount'])) {
-                $amount = (float) $_POST['add_amount'];
-            } else {
+            if (!Validation::validateSum($_POST['add_amount'])) {
                 $_SESSION['modal'] = [
                     'name' => 'error',
                     'modal_message' => 'Prašome įvesti validžią sumą',
@@ -139,7 +124,9 @@ class Accounts {
                 return Application::redirect("/add-money/$id");
             }
 
-            if ($amount <= 0) {
+            $amount = (float) $_POST['add_amount'];
+
+            if (!Validation::validateSumAboveZero($amount)) {
                 $_SESSION['modal'] = [
                     'name' => 'error',
                     'modal_message' => 'Negalima pridėti nulinės arba negatyvios sumos',
@@ -163,9 +150,7 @@ class Accounts {
         if(isset($_POST['withdraw_amount'])) {
             $user = Application::$usersFileReader->show($id);
 
-            if (preg_match('/^-?(?:[0-9]*[.])?[0-9]+$/', $_POST['withdraw_amount'])) {
-                $amount = (float) $_POST['withdraw_amount'];
-            } else {
+            if (!Validation::validateSum($_POST['withdraw_amount'])) {
                 $_SESSION['modal'] = [
                     'name' => 'error',
                     'modal_message' => 'Prašome įvesti validžią sumą',
@@ -175,7 +160,9 @@ class Accounts {
                 return Application::redirect("/withdraw-money/$id");
             }
 
-            if ($amount > $user['money']) {
+            $amount = (float) $_POST['withdraw_amount'];
+
+            if (!Validation::validateWithdrawSum($amount, $user)) {
                 $_SESSION['modal'] = [
                     'name' => 'error',
                     'modal_message' => 'Suma viršija turimas lėšas',
@@ -185,7 +172,7 @@ class Accounts {
                 return Application::redirect("/withdraw-money/$id");
             }
 
-            if ($amount <= 0) {
+            if (!Validation::validateSumAboveZero($amount)) {
                 $_SESSION['modal'] = [
                     'name' => 'error',
                     'modal_message' => 'Negalima nuskaičiuoti nulinės arba negatyvios sumos',
@@ -210,7 +197,7 @@ class Accounts {
     public function delete($id)
     {
         $user = Application::$usersFileReader->show($id);
-        if ($user['money'] == 0) {
+        if (Validation::validateDeleteUser($user)) {
             Application::$usersFileReader->delete($id);
 
             $_SESSION['modal'] = [

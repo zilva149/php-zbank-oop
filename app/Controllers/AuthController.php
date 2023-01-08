@@ -23,11 +23,7 @@ class AuthController
                 }
             }
 
-            $_SESSION['modal_sm'] = [
-                'name' => 'error',
-                'modal_message' => 'Neteisingas el. paštas arba slaptažodis',
-                'modal_color' => '#f01616'
-            ];
+            $_SESSION['login_error'] = 'Neteisingas el. paštas arba slaptažodis';
 
             return Application::redirect('/login');
         }

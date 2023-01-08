@@ -2,10 +2,13 @@
     <div class="container">
         <form action="/login" method="post" class="form flex flex-col">
             <h1 class="title">Prisijunkite</h1>
-            <?php if (isset($_SESSION['modal_sm'])) :
-                require('./../views/components/modal-sm.php');
-                unset($_SESSION['modal_sm']);
-            endif ?>
+            <?php if (isset($_SESSION['login_error'])) : ?>
+                <div class="modal modal-sm flex" style="background-color: #f01616">
+                    <i class='fa-solid fa-exclamation'></i>
+                    <p class="modal-text"><?= $_SESSION['login_error'] ?></p>
+                </div>
+                <?php unset($_SESSION['login_error']) ?>
+            <?php endif ?>
             <div class="form-info grid">
                 <div class="input-container" style="grid-column: 1 / span 2;">
                     <label for="email" class="label">El. paštas</label>

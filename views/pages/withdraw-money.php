@@ -31,7 +31,7 @@
 </div>
 
 <script>
-    const input = document.querySelector('input[name="amount"]');
+    const input = document.querySelector('input[name="withdraw_amount"]');
     window.addEventListener('DOMContentLoaded', () => input.focus());
 </script>
 
