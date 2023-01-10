@@ -61,6 +61,61 @@
     padding: 4rem 0;
 }
 
+.currencies-container {
+    margin-bottom: 3rem;
+    justify-content: center;
+}
+
+.currency-title {
+    font-size: 2.2rem;
+}
+
+.currencies {
+    gap: 1rem;
+}
+
+.currency {
+    font-size: 1.5rem;
+    color: var(--dblue);
+    background-color: var(--lgray);
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.current {
+    background-color: var(--orange);
+    color: #fff;
+}
+
+.currency:hover {
+    background-color: var(--orange);
+    color: #fff;
+}
+
+.currency:active {
+    transform: scale(0.9);
+}
+
+
+@media screen and (max-width: 450px) {
+    .currency-title {
+        display: none;
+    }
+
+    .currency {
+        font-size: 1.3rem;
+        padding: 0.4rem 0.8rem;
+    }
+}
+
+@media screen and (min-width: 992px) {
+    .currencies-container {
+        justify-content: flex-start;
+    }
+}
+
 .user {
     width: 100%;
     grid-template-columns: repeat(4, 1fr);

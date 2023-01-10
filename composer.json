@@ -13,5 +13,7 @@
             "email": "114057257+zilva149@users.noreply.github.com"
         }
     ],
-    "require": {}
+    "require": {
+      "ext-curl": "*"
+    }
 }

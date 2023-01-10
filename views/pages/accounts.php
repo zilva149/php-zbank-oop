@@ -14,6 +14,14 @@
             unset($_SESSION['modal']);
         endif ?>
         <?php if (isset($users) && count($users) != 0) : ?>
+            <section class="currencies-container flex">
+                <h2 class="currency-title">Valiutos:</h2>
+                <div class="currencies flex">
+                    <a href="/accounts" class="currency <?= $current === 'eur' ? 'current' : '' ?>">EUR</a>
+                    <a href="/accounts/usd" class="currency <?= $current === 'usd' ? 'current' : '' ?>">USD</a>
+                    <a href="/accounts/gbp" class="currency <?= $current === 'gbp' ? 'current' : '' ?>">GBP</a>
+                </div>
+            </section>
             <section class="users grid">
                 <?php foreach ($users as $i => $user) : ?>
                     <article class="user grid">
@@ -21,7 +29,7 @@
                         <p class="acc-id"><span class="highlight">ID: </span><?= $user['id'] ?></p>
                         <p class="acc-idnum"><span class="highlight">Asmens kodas: </span><?= $user['id_num'] ?></p>
                         <p class="acc-iban"><span class="highlight">Sąskaitos Nr.: </span><?= $user['bank_acc'] ?></p>
-                        <p class="acc-money">&#8364;<?= number_format($user['money'], 2, '.', ',') ?></p>
+                        <p class="acc-money"><?= getCurrency($current) ?><?= number_format($user['money'], 2, '.', ',') ?></p>
                         <div class="user-btns flex">
                             <a href="/add-money/<?= $user['id'] ?>" class="btn plus-btn">
                                 <i class="fa-solid fa-plus"></i>

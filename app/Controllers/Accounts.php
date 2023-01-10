@@ -4,6 +4,7 @@ namespace app\Controllers;
 
 use app\DB\FileReader;
 use app\Controllers\Validation;
+use app\Controllers\CurrencyAPI;
 
 class Accounts {
 
@@ -13,7 +14,42 @@ class Accounts {
         usort($users, fn ($a, $b) => $a['surname'] <=> $b['surname']);
         $pageTitle = 'Sąskaitų sąrašas';
         $active = 'accounts';
-        return Application::renderView('accounts', compact('users' ,'pageTitle', 'active'));
+        $current = 'eur';
+        return Application::renderView('accounts', compact('users' ,'pageTitle', 'active', 'current'));
+    }
+
+    public function indexUSD(): string
+    {
+        $users = Application::$usersFileReader->showAll();
+        usort($users, fn ($a, $b) => $a['surname'] <=> $b['surname']);
+
+        $response = CurrencyAPI::getCurrencyRate('USD');
+
+        foreach ($users as &$user) {
+            $user['money'] *= $response['rates']['USD'];
+        }
+
+        $pageTitle = 'Sąskaitų sąrašas';
+        $active = 'accounts';
+        $current = 'usd';
+        return Application::renderView('accounts', compact('users' ,'pageTitle', 'active', 'current'));
+    }
+
+    public function indexGBP(): string
+    {
+        $users = Application::$usersFileReader->showAll();
+        usort($users, fn ($a, $b) => $a['surname'] <=> $b['surname']);
+
+        $response = CurrencyAPI::getCurrencyRate('GBP');
+
+        foreach ($users as &$user) {
+            $user['money'] *= $response['rates']['GBP'];
+        }
+
+        $pageTitle = 'Sąskaitų sąrašas';
+        $active = 'accounts';
+        $current = 'gbp';
+        return Application::renderView('accounts', compact('users' ,'pageTitle', 'active', 'current'));
     }
 
     public function create(): string
@@ -80,9 +116,8 @@ class Accounts {
         Application::$usersFileReader->create($user);
 
         $_SESSION['modal'] = [
-            'name' => 'success',
-            'modal_message' => 'Naujas klientas sėkmingai pridėtas',
-            'modal_color' => '#35bd0f',
+            'operation' => 'success',
+            'message' => 'Naujas klientas sėkmingai pridėtas'
         ];
         return Application::redirect('/accounts');
     }
@@ -90,6 +125,11 @@ class Accounts {
     public function add($id): string
     {
         $user = Application::$usersFileReader->show($id);
+
+        if(!$user) {
+            return $this->error();
+        }
+
         $pageTitle = 'Pridėti lėšas';
         return Application::renderView('add-money', compact('pageTitle', 'user'));
     }
@@ -97,6 +137,11 @@ class Accounts {
     public function withdraw($id): string
     {
         $user = Application::$usersFileReader->show($id);
+
+        if(!$user) {
+            return $this->error();
+        }
+
         $pageTitle = 'Nuskaičiuoti lėšas';
         return Application::renderView('withdraw-money', compact('pageTitle', 'user'));
     }
@@ -108,9 +153,8 @@ class Accounts {
 
             if (!Validation::validateSum($_POST['add_amount'])) {
                 $_SESSION['modal'] = [
-                    'name' => 'error',
-                    'modal_message' => 'Prašome įvesti validžią sumą',
-                    'modal_color' => '#f01616'
+                    'operation' => 'error',
+                    'message' => 'Prašome įvesti validžią sumą'
                 ];
 
                 return Application::redirect("/add-money/$id");
@@ -120,9 +164,8 @@ class Accounts {
 
             if (!Validation::validateSumAboveZero($amount)) {
                 $_SESSION['modal'] = [
-                    'name' => 'error',
-                    'modal_message' => 'Negalima pridėti nulinės arba negatyvios sumos',
-                    'modal_color' => '#f01616'
+                    'operation' => 'error',
+                    'message' => 'Negalima pridėti nulinės arba negatyvios sumos'
                 ];
 
                 return Application::redirect("/add-money/$id");
@@ -132,9 +175,8 @@ class Accounts {
             Application::$usersFileReader->update($id, $user);
 
             $_SESSION['modal'] = [
-                'name' => 'success',
-                'modal_message' => 'Sėkmingai pridėta lėšų',
-                'modal_color' => '#35bd0f'
+                'operation' => 'success',
+                'message' => 'Sėkmingai pridėta lėšų'
             ];
             return Application::redirect('/accounts');
         }
@@ -144,9 +186,8 @@ class Accounts {
 
             if (!Validation::validateSum($_POST['withdraw_amount'])) {
                 $_SESSION['modal'] = [
-                    'name' => 'error',
-                    'modal_message' => 'Prašome įvesti validžią sumą',
-                    'modal_color' => '#f01616'
+                    'operation' => 'error',
+                    'message' => 'Prašome įvesti validžią sumą'
                 ];
 
                 return Application::redirect("/withdraw-money/$id");
@@ -156,9 +197,8 @@ class Accounts {
 
             if (!Validation::validateWithdrawSum($amount, $user)) {
                 $_SESSION['modal'] = [
-                    'name' => 'error',
-                    'modal_message' => 'Suma viršija turimas lėšas',
-                    'modal_color' => '#f01616'
+                    'operation' => 'error',
+                    'message' => 'Suma viršija turimas lėšas'
                 ];
 
                 return Application::redirect("/withdraw-money/$id");
@@ -166,9 +206,8 @@ class Accounts {
 
             if (!Validation::validateSumAboveZero($amount)) {
                 $_SESSION['modal'] = [
-                    'name' => 'error',
-                    'modal_message' => 'Negalima nuskaičiuoti nulinės arba negatyvios sumos',
-                    'modal_color' => '#f01616'
+                    'operation' => 'error',
+                    'message' => 'Negalima nuskaičiuoti nulinės arba negatyvios sumos'
                 ];
 
                 return Application::redirect("/withdraw-money/$id");
@@ -178,9 +217,8 @@ class Accounts {
             Application::$usersFileReader->update($id, $user);
 
             $_SESSION['modal'] = [
-                'name' => 'success',
-                'modal_message' => 'Sėkmingai nuskaičiuotos lėšos',
-                'modal_color' => '#35bd0f'
+                'operation' => 'success',
+                'message' => 'Sėkmingai nuskaičiuotos lėšos'
             ];
             return Application::redirect('/accounts');
         }
@@ -193,17 +231,15 @@ class Accounts {
             Application::$usersFileReader->delete($id);
 
             $_SESSION['modal'] = [
-                'name' => 'success',
-                'modal_message' => 'Sąskaita sėkmingai ištrinta',
-                'modal_color' => '#35bd0f'
+                'operation' => 'success',
+                'message' => 'Sąskaita sėkmingai ištrinta'
             ];
 
             return Application::redirect('/accounts');
         } else {
             $_SESSION['modal'] = [
-                'name' => 'error',
-                'modal_message' => 'Sąskaitos, kurioje yra pinigų, negalima ištrinti',
-                'modal_color' => '#f01616'
+                'operation' => 'error',
+                'message' => 'Sąskaitos, kurioje yra pinigų, negalima ištrinti'
             ];
 
             return Application::redirect("/accounts");

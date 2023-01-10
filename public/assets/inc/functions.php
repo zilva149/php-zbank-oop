@@ -10,3 +10,10 @@ function generateIBAN(array $users, string $IBAN = ''): string
     }
     return $IBAN;
 }
+
+function getCurrency(string $currency): string
+{
+    if ($currency === 'eur') return '&#8364;';
+    if ($currency === 'usd') return '&#36;';
+    if ($currency === 'gbp') return '&#163;';
+}

@@ -48,6 +48,14 @@ class Application
             return self::$accounts->index();
         }
 
+        if ($url[0] === 'accounts' && $url[1] === 'usd' && count($url) === 2 && $method === 'GET') {
+            return self::$accounts->indexUSD();
+        }
+
+        if ($url[0] === 'accounts' && $url[1] === 'gbp' && count($url) === 2 && $method === 'GET') {
+            return self::$accounts->indexGBP();
+        }
+
         if ($url[0] === 'login' && count($url) === 1 && $method === 'GET') {
             return self::$authController->login();
         }
