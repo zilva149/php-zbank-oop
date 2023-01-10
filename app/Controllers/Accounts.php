@@ -73,7 +73,7 @@ class Accounts {
 
         if (!Validation::validateLength($name, 4)) {
             if(!isset($_SESSION['name_error'])) {
-                $_SESSION['name_error'] = 'Vardas trumpesnis nei 4 raidės';
+                $_SESSION['name_error'] = 'Vardas turi būti ilgesnis nei 3 raidės';
             }
         }
 
@@ -83,7 +83,7 @@ class Accounts {
 
         if (!Validation::validateLength($surname, 4)) {
             if(!isset($_SESSION['surname_error'])) {
-                $_SESSION['surname_error'] = 'Pavardė trumpesnė nei 4 raidės';
+                $_SESSION['surname_error'] = 'Pavardė turi būti ilgesnė nei 3 raidės';
             }
         }
 

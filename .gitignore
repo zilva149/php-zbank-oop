@@ -1,5 +1,6 @@
 /public/node_modules
 /vendor
 /.vscode
+/.idea
 .DS_Store
 .desktop_ini
